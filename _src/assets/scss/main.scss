@@ -1,8 +1,37 @@
-@import 'core/settings';
-@import 'core/links';
-
 body {
-	background: url('../images/logo-adalab-80px.png') center center no-repeat $color-white;
-	margin: 0;
-	height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  background-color: purple;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+.title {
+  margin: 0;
+  color: white;
+}
+
+.main {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.s1 {
+  width: 100%;
+}
+
+.s2 {
+  width: 20%;
+  padding: 0 30px;
+}
+
+.fav__title__container {
+  border-bottom: 2px solid black;
 }
