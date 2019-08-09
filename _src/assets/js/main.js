@@ -88,14 +88,14 @@ function selectFav(ev) {
 function paintFavs() {
   favListShow.innerHTML = "";
   for (const index of favArr) {
-    favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete">X</div><div class="main-fav"><p class="title-fav">${
+    favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete-btn">X</div><div class="main-fav"><p class="title-fav">${
       index.show.name
     }</p><img src="${
       index.show.image
     }" class="js-fav-image"></div></div> </li>`;
   }
 
-  let deleteItemArr = document.querySelectorAll(".delete");
+  let deleteItemArr = document.querySelectorAll(".delete-btn");
   console.log(deleteItemArr);
   for (const item of deleteItemArr) {
     item.addEventListener("click", removeFavShow);
@@ -103,9 +103,10 @@ function paintFavs() {
 }
 
 function removeFavShow(ev) {
-  const favToRemove = parseInt(ev.currentTarget.dataset.index);
-  // const favToRemoveId = favToRemove.id;
+  const favToRemove = ev.currentTarget.dataset.index;
+  //const favToRemoveId = favToRemove.id;
   favArr.splice(favToRemove, 1);
+  //favArr.splice(favToRemoveId, 1);
   paintFavs();
   setFavShowsIntoLocalStorage(favArr);
 }

@@ -7,15 +7,45 @@ body {
 .header {
   background-color: black;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  padding: 10px 30px 25px 30px;
 }
 
 .title {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.title-name {
   margin: 0;
   font-size: 40px;
+  font-family: "Inknut Antiqua", serif;
+  font-weight: 100;
   color: white;
+}
+
+.input {
+  height: 25px;
+  width: 250px;
+}
+
+.btn {
+  margin-left: 10px;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgb(126, 62, 126);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.btn:hover {
+  background-color: rgb(189, 110, 189);
 }
 
 .main {
@@ -46,10 +76,11 @@ body {
 
 .show-list-title {
   margin: 0;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   text-align: center;
+  font-family: sans-serif;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 20px;
   color: white;
 }
 
@@ -59,7 +90,10 @@ body {
 }
 
 .fav__title {
+  margin: 0;
   text-align: center;
+  font-family: "Inknut Antiqua", serif;
+  font-weight: 100;
 }
 
 .fav__title__container {
@@ -95,20 +129,22 @@ li {
 
 .title-fav {
   margin: 0;
+  font-family: sans-serif;
 }
 
-.delete {
+.delete-btn {
   background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20px;
-  width: 20px;
+  height: 25px;
+  width: 25px;
   border-radius: 50%;
   font-family: sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
   color: white;
+  cursor: pointer;
 }
 
 .js-fav-image {
@@ -118,5 +154,5 @@ li {
 }
 
 .selected {
-  background-color: rgb(109, 42, 109);
+  background-color: rgb(126, 62, 126);
 }
