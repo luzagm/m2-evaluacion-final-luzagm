@@ -8,6 +8,19 @@ const favListShow = document.querySelector(".js-fav");
 let favArr = [];
 let shows = [];
 
+// Set y Get de localStorage
+function getFavShowsFromLocalStorage() {
+  const itemInLocalStorage = JSON.parse(localStorage.getItem("fav-shows"));
+  if (itemInLocalStorage !== null) {
+    favArr = itemInLocalStorage;
+  }
+}
+
+function setFavShowsIntoLocalStorage() {
+  localStorage.setItem("fav-shows", JSON.stringify(favArr));
+}
+
+// Busco dentro de la API
 function searchShows(event) {
   event.preventDefault();
   let inputValue = input.value;
@@ -16,70 +29,82 @@ function searchShows(event) {
   fetch(url) //Busco en la API los datos que necesito
     .then(response => response.json())
     .then(data => {
-      // data = formatData(data);
-      shows = data;
-
-      let searchResult = "";
-
-      for (let index = 0; index < shows.length; index++) {
-        const showName = shows[index].show.name;
-
-        if (shows[index].show.image === null) {
-          shows[
-            index
-          ].show.image = `https://via.placeholder.com/210x295/ffffff/666666/?text=TV`;
-        } else {
-          shows[index].show.image = shows[index].show.image.medium;
-        }
-
-        searchResult += `<div class="js-show-list" data-index='${index}'><p class="show-list-title"> ${showName} </p><img src="${
-          shows[index].show.image
-        }"></div>`;
-      }
-
-      originalListShow.innerHTML = searchResult;
-
-      const originalShows = document.querySelectorAll(".js-show-list");
-      for (const item of originalShows) {
-        item.addEventListener("click", selectFav);
-        item.addEventListener("click", paintFavs);
-        // Pinto data (name y image) en el HTML
+      if (data.length > 0) {
+        shows = data;
+        paintShows(data);
+      } else {
+        shows.innerHTML = "No hay resultados para esta búsqueda";
       }
     });
 }
 
-function selectFav(ev) {
-  debugger;
-  const selectedFavShow = parseInt(ev.currentTarget.dataset.index);
-  favArr.push(shows[selectedFavShow]);
-  console.log(favArr);
-}
+// function formatData() {
+//   for (const show of data) {
+//     shows.push({
+//       name: show.show.name,
+//       image: show.show.image
+//     });
+//   }
+// }
 
-function paintFavs() {
-  favListShow.innerHTML = "";
-  for (const item of favArr) {
-    favListShow.innerHTML += `<li><div class="top-title-fav">${
-      item.show.name
-    } <div class="delete">X</div></div> <img src="${
-      item.show.image
-    }" class="js-fav-image"></li>`;
+function paintShows() {
+  // Pinto los objetos que quiero mostrar
+  let searchResult = "";
+
+  for (let index = 0; index < shows.length; index++) {
+    const showName = shows[index].show.name;
+    const showId = shows[index].show.id;
+
+    if (shows[index].show.image === null) {
+      shows[
+        index
+      ].show.image = `https://via.placeholder.com/210x295/ffffff/666666/?text=TV`;
+    } else {
+      shows[index].show.image = shows[index].show.image.medium;
+    }
+
+    searchResult += `<div class="js-show-list" id="${showId}" data-index='${index}'><p class="show-list-title">${showName}</p><img src="${
+      shows[index].show.image
+    }"></div>`;
+  }
+
+  originalListShow.innerHTML = searchResult;
+
+  //Ejecuto funciones selectFav y paintFav
+  const originalShows = document.querySelectorAll(".js-show-list");
+  for (const item of originalShows) {
+    item.addEventListener("click", selectFav);
+    item.addEventListener("click", paintFavs);
   }
 }
 
-// function formatData(data) {
-//   const result = [];
-//   for (const show of data) {
-//     result.push({
-//       name: show.name,
-//       image: show.image,
-//       id: show.id
-//     });
-//   }
-//   return result;
-// }
+// Selecciono favorito y pinto fondo del seleccionado
+function selectFav(ev) {
+  const selectedFavShow = ev.currentTarget.dataset.index;
+  const colorFavShow = ev.currentTarget;
 
-// const saveDataInShows = data => {
-//   shows = data;
-// };
+  if (favArr.includes(shows[selectedFavShow]) === false) {
+    favArr.push(shows[selectedFavShow]);
+  }
+
+  colorFavShow.classList.toggle("selected");
+
+  setFavShowsIntoLocalStorage(favArr);
+}
+
+// Pinto favoritos en la columna correspondiente
+function paintFavs() {
+  favListShow.innerHTML = "";
+  for (const index of favArr) {
+    favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete">X</div><div class="main-fav"><p class="title-fav">${
+      index.show.name
+    }</p><img src="${
+      index.show.image
+    }" class="js-fav-image"></div></div> </li>`;
+  }
+}
+
+getFavShowsFromLocalStorage();
+paintFavs();
 
 button.addEventListener("click", searchShows);
