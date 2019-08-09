@@ -38,15 +38,6 @@ function searchShows(event) {
     });
 }
 
-// function formatData() {
-//   for (const show of data) {
-//     shows.push({
-//       name: show.show.name,
-//       image: show.show.image
-//     });
-//   }
-// }
-
 function paintShows() {
   // Pinto los objetos que quiero mostrar
   let searchResult = "";
@@ -72,6 +63,7 @@ function paintShows() {
 
   //Ejecuto funciones selectFav y paintFav
   const originalShows = document.querySelectorAll(".js-show-list");
+  console.log(originalShows);
   for (const item of originalShows) {
     item.addEventListener("click", selectFav);
     item.addEventListener("click", paintFavs);
@@ -102,6 +94,20 @@ function paintFavs() {
       index.show.image
     }" class="js-fav-image"></div></div> </li>`;
   }
+
+  let deleteItemArr = document.querySelectorAll(".delete");
+  console.log(deleteItemArr);
+  for (const item of deleteItemArr) {
+    item.addEventListener("click", removeFavShow);
+  }
+}
+
+function removeFavShow(ev) {
+  const favToRemove = parseInt(ev.currentTarget.dataset.index);
+  // const favToRemoveId = favToRemove.id;
+  favArr.splice(favToRemove, 1);
+  paintFavs();
+  setFavShowsIntoLocalStorage(favArr);
 }
 
 getFavShowsFromLocalStorage();
