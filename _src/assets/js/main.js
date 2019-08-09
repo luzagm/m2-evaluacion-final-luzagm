@@ -54,7 +54,7 @@ function paintShows() {
       shows[index].show.image = shows[index].show.image.medium;
     }
 
-    searchResult += `<div class="js-show-list" id="${showId}" data-index='${index}'><p class="show-list-title">${showName}</p><img src="${
+    searchResult += `<div class="js-show-list" id="${showId}" data-index='${index}'><p class="show-list-title">${showName}</p><img class="img-original" src="${
       shows[index].show.image
     }"></div>`;
   }
