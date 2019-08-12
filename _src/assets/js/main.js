@@ -31,6 +31,7 @@ function searchShows(event) {
     .then(data => {
       if (data.length > 0) {
         shows = data;
+        formatAndSaveData(data);
         paintShows(data);
       } else {
         shows.innerHTML = "No hay resultados para esta búsqueda";
@@ -38,24 +39,38 @@ function searchShows(event) {
     });
 }
 
+function formatAndSaveData(data) {
+  const result = [];
+  for (const index of data) {
+    result.push({
+      name: index.show.name,
+      image: index.show.image,
+      id: index.show.id
+    });
+  }
+
+  shows = result;
+  console.log("Format JSON data and return it as array >>> Return", shows);
+}
+
 function paintShows() {
   // Pinto los objetos que quiero mostrar
   let searchResult = "";
 
   for (let index = 0; index < shows.length; index++) {
-    const showName = shows[index].show.name;
-    const showId = shows[index].show.id;
+    const showName = shows[index].name;
+    const showId = shows[index].id;
 
-    if (shows[index].show.image === null) {
+    if (shows[index].image === null) {
       shows[
         index
-      ].show.image = `https://via.placeholder.com/210x295/ffffff/666666/?text=TV`;
+      ].image = `https://via.placeholder.com/210x295/ffffff/666666/?text=TV`;
     } else {
-      shows[index].show.image = shows[index].show.image.medium;
+      shows[index].image = shows[index].image.medium;
     }
 
-    searchResult += `<div class="js-show-list" id="${showId}" data-index='${index}'><p class="show-list-title">${showName}</p><img class="img-original" src="${
-      shows[index].show.image
+    searchResult += `<div class="js-show-list" data-id="${showId}" data-index='${index}'><p class="show-list-title">${showName}</p><img class="img-original" src="${
+      shows[index].image
     }"></div>`;
   }
 
@@ -65,48 +80,48 @@ function paintShows() {
   const originalShows = document.querySelectorAll(".js-show-list");
   console.log(originalShows);
   for (const item of originalShows) {
-    item.addEventListener("click", selectFav);
-    item.addEventListener("click", paintFavs);
+    item.addEventListener("click", addFav);
   }
 }
 
+function addFav(ev) {
+  selectFav(ev);
+  paintFavs();
+}
 // Selecciono favorito y pinto fondo del seleccionado
 function selectFav(ev) {
-  const selectedFavShow = ev.currentTarget.dataset.index;
+  const selectedFavShow = parseInt(ev.currentTarget.dataset.index);
+  console.log(selectedFavShow);
   const colorFavShow = ev.currentTarget;
 
   if (favArr.includes(shows[selectedFavShow]) === false) {
     favArr.push(shows[selectedFavShow]);
   }
-
   colorFavShow.classList.toggle("selected");
 
   setFavShowsIntoLocalStorage(favArr);
 }
-
+let deleteItemArr = [];
 // Pinto favoritos en la columna correspondiente
 function paintFavs() {
   favListShow.innerHTML = "";
-  for (const index of favArr) {
-    favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete-btn">X</div><div class="main-fav"><p class="title-fav">${
-      index.show.name
+  for (let index = 0; index < favArr.length; index++) {
+    favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete-btn" data-index="${index}">X</div><div class="main-fav"><p class="title-fav">${
+      favArr[index].name
     }</p><img src="${
-      index.show.image
+      favArr[index].image
     }" class="js-fav-image"></div></div> </li>`;
   }
-
-  let deleteItemArr = document.querySelectorAll(".delete-btn");
-  console.log(deleteItemArr);
-  for (const item of deleteItemArr) {
-    item.addEventListener("click", removeFavShow);
+  deleteItemArr = document.querySelectorAll(".delete-btn");
+  for (const btn of deleteItemArr) {
+    btn.addEventListener("click", removeFavShow);
   }
 }
 
 function removeFavShow(ev) {
-  const favToRemove = ev.currentTarget.dataset.index;
-  //const favToRemoveId = favToRemove.id;
+  const favToRemove = parseInt(ev.currentTarget.dataset.index);
   favArr.splice(favToRemove, 1);
-  //favArr.splice(favToRemoveId, 1);
+
   paintFavs();
   setFavShowsIntoLocalStorage(favArr);
 }
