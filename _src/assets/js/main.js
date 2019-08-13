@@ -74,7 +74,7 @@ function paintShows() {
       shows[index].show.image
     }"></div>`;
   }
-  console.log(shows);
+
   originalListShow.innerHTML = searchResult;
 
   //Ejecuto funciones selectFav y paintFav
