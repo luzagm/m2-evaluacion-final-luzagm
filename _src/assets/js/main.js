@@ -7,6 +7,7 @@ const favListShow = document.querySelector(".js-fav");
 
 let favArr = [];
 let shows = [];
+let languages = ["English", "Spanish", "French"];
 
 // Set y Get de localStorage
 function getFavShowsFromLocalStorage() {
