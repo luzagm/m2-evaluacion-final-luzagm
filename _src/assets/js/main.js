@@ -7,22 +7,32 @@ const favListShow = document.querySelector(".js-fav");
 
 let favArr = [];
 let shows = [];
-let languages = ["English", "Spanish", "French"];
+let deleteShowArr = [];
 
-// Set y Get de localStorage
-function getFavShowsFromLocalStorage() {
+const initApp = () => {
+  searchShows(event);
+  paintShows();
+};
+
+function addFav(ev) {
+  selectFav(ev);
+  paintFavs();
+}
+
+// Set and Get from localStorage
+const getFavShowsFromLocalStorage = () => {
   const itemInLocalStorage = JSON.parse(localStorage.getItem("fav-shows"));
   if (itemInLocalStorage !== null) {
     favArr = itemInLocalStorage;
   }
-}
+};
 
-function setFavShowsIntoLocalStorage() {
+const setFavShowsIntoLocalStorage = () => {
   localStorage.setItem("fav-shows", JSON.stringify(favArr));
-}
+};
 
-// Busco dentro de la API
-function searchShows(event) {
+// Search inside API
+const searchShows = event => {
   event.preventDefault();
   let inputValue = input.value;
   const url = `http://api.tvmaze.com/search/shows?q=${inputValue}`;
@@ -32,100 +42,95 @@ function searchShows(event) {
     .then(data => {
       if (data.length > 0) {
         shows = data;
-        // formatAndSaveData(data);
+        formatAndSaveData(data);
         paintShows(data);
       } else {
-        shows.innerHTML = "No hay resultados para esta búsqueda";
+        originalListShow.innerHTML = "No hay resultados para esta búsqueda";
       }
     });
-}
+};
 
-// function formatAndSaveData(data) {
-//   const result = [];
-//   for (const index of data) {
-//     result.push({
-//       name: index.show.name,
-//       image: index.show.image,
-//       id: index.show.id
-//     });
-//   }
+// Format data to get only the info that I want
+const formatAndSaveData = data => {
+  const result = [];
+  for (const index of data) {
+    result.push({
+      name: index.show.name,
+      image: index.show.image,
+      id: index.show.id,
+      language: index.show.language,
+      genre: index.show.genres
+    });
+  }
+  shows = result;
+};
 
-//   shows = result;
-//   console.log("Format JSON data and return it as array >>> Return", shows);
-// }
-
-function paintShows() {
-  // Pinto los objetos que quiero mostrar
-  let searchResult = "";
-
+let searchResult = "";
+const paintShows = () => {
   for (let index = 0; index < shows.length; index++) {
-    const showName = shows[index].show.name;
-    const showId = shows[index].show.id;
+    const showName = shows[index].name;
 
-    if (shows[index].show.image === null) {
+    if (shows[index].image === null) {
       shows[
         index
-      ].show.image = `https://via.placeholder.com/210x295/ffffff/666666/?text=TV`;
+      ].image = `https://via.placeholder.com/210x295/ffffff/666666/?text=TV`;
     } else {
-      shows[index].show.image = shows[index].show.image.medium;
+      shows[index].image = shows[index].image.medium;
     }
 
-    searchResult += `<div class="js-show-list" data-id="${showId}" data-index='${index}'><p class="show-list-title">${showName}</p><img class="img-original" src="${
-      shows[index].show.image
+    searchResult += `<div class="js-show-list" data-index='${index}'><p class="show-list-title">${showName}</p><img class="img-original" src="${
+      shows[index].image
     }"></div>`;
   }
 
   originalListShow.innerHTML = searchResult;
 
-  //Ejecuto funciones selectFav y paintFav
   const originalShows = document.querySelectorAll(".js-show-list");
   for (const item of originalShows) {
     item.addEventListener("click", addFav);
   }
-}
+  console.log(shows);
+};
 
-function addFav(ev) {
-  selectFav(ev);
-  paintFavs();
-}
-// Selecciono favorito y pinto fondo del seleccionado
-function selectFav(ev) {
+// Select favorite show and paint selected item background
+const selectFav = ev => {
   const selectedFavShow = parseInt(ev.currentTarget.dataset.index);
   const colorFavShow = ev.currentTarget;
 
   if (favArr.includes(shows[selectedFavShow]) === false) {
     favArr.push(shows[selectedFavShow]);
   }
-  colorFavShow.classList.toggle("selected");
+  colorFavShow.classList.add("selected");
 
   setFavShowsIntoLocalStorage(favArr);
-}
+};
 
-let deleteItemArr = [];
-// Pinto favoritos en la columna correspondiente
-function paintFavs() {
+// Paint favorites in their column
+const paintFavs = () => {
+  //debugger;
   favListShow.innerHTML = "";
   for (let index = 0; index < favArr.length; index++) {
-    favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete-btn" data-index="${index}">X</div><div class="main-fav"><p class="title-fav">${
-      favArr[index].show.name
+    favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete-btn" data-index='${index}'>X</div><div class="main-fav"><p class="title-fav">${
+      favArr[index].name
     }</p><img src="${
-      favArr[index].show.image
+      favArr[index].image
     }" class="js-fav-image"></div></div> </li>`;
   }
-  deleteItemArr = document.querySelectorAll(".delete-btn");
-  for (const btn of deleteItemArr) {
+
+  deleteShowArr = document.querySelectorAll(".delete-btn");
+  for (const btn of deleteShowArr) {
     btn.addEventListener("click", removeFavShow);
   }
-}
+};
 
-function removeFavShow(ev) {
+const removeFavShow = ev => {
   const favToRemove = parseInt(ev.currentTarget.dataset.index);
   favArr.splice(favToRemove, 1);
   paintFavs();
   setFavShowsIntoLocalStorage(favArr);
-}
+};
 
 getFavShowsFromLocalStorage();
 paintFavs();
 
-button.addEventListener("click", searchShows);
+button.addEventListener("click", initApp);
