@@ -14,10 +14,10 @@ const initApp = () => {
   paintShows();
 };
 
-function addFav(ev) {
+const addFav = ev => {
   selectFav(ev);
   paintFavs();
-}
+};
 
 // Set and Get from localStorage
 const getFavShowsFromLocalStorage = () => {
@@ -41,7 +41,6 @@ const searchShows = event => {
     .then(response => response.json())
     .then(data => {
       if (data.length > 0) {
-        shows = data;
         formatAndSaveData(data);
         paintShows(data);
       } else {
@@ -69,7 +68,6 @@ let searchResult = "";
 const paintShows = () => {
   for (let index = 0; index < shows.length; index++) {
     const showName = shows[index].name;
-
     if (shows[index].image === null) {
       shows[
         index
@@ -77,7 +75,6 @@ const paintShows = () => {
     } else {
       shows[index].image = shows[index].image.medium;
     }
-
     searchResult += `<div class="js-show-list" data-index='${index}'><p class="show-list-title">${showName}</p><img class="img-original" src="${
       shows[index].image
     }"></div>`;
@@ -85,11 +82,11 @@ const paintShows = () => {
 
   originalListShow.innerHTML = searchResult;
 
+  // selectFav listener
   const originalShows = document.querySelectorAll(".js-show-list");
   for (const item of originalShows) {
     item.addEventListener("click", addFav);
   }
-  console.log(shows);
 };
 
 // Select favorite show and paint selected item background
@@ -107,7 +104,6 @@ const selectFav = ev => {
 
 // Paint favorites in their column
 const paintFavs = () => {
-  //debugger;
   favListShow.innerHTML = "";
   for (let index = 0; index < favArr.length; index++) {
     favListShow.innerHTML += `<li><div class="fav-list-item"><div class="delete-btn" data-index='${index}'>X</div><div class="main-fav"><p class="title-fav">${
@@ -117,12 +113,14 @@ const paintFavs = () => {
     }" class="js-fav-image"></div></div> </li>`;
   }
 
+  // removeFavShow listener
   deleteShowArr = document.querySelectorAll(".delete-btn");
   for (const btn of deleteShowArr) {
     btn.addEventListener("click", removeFavShow);
   }
 };
 
+// Remove shows from favorites
 const removeFavShow = ev => {
   const favToRemove = parseInt(ev.currentTarget.dataset.index);
   favArr.splice(favToRemove, 1);
