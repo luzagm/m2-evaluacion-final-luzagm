@@ -1,5 +1,5 @@
 # Examen final del módulo 2 (Javascript) 
-## Buscador de series
+# Buscador de series
 
 ### 1. Estructura básica
 La aplicación de búsqueda de series consta de dos partes:
