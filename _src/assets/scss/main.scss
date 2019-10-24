@@ -1,52 +1,5 @@
-body {
-  margin: 0;
-  box-sizing: border-box;
-  background-color: lightgray;
-}
-
-.header {
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 30px 25px 30px;
-}
-
-.title {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.title-name {
-  margin: 0;
-  font-family: "Inknut Antiqua", serif;
-  font-size: 24px;
-  font-weight: 100;
-  color: white;
-}
-
-.img-header {
-  display: none;
-}
-
-.input {
-  height: 25px;
-  width: 180px;
-}
-
-.btn {
-  margin-left: 10px;
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  border: none;
-  background-color: rgb(126, 62, 126);
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-}
+@import "core/reset";
+@import "layouts/header";
 
 .main {
   display: flex;
@@ -67,7 +20,6 @@ body {
 }
 
 .original__series {
-  margin: 0;
   text-align: center;
   font-family: "Inknut Antiqua", serif;
   font-weight: 100;
@@ -171,59 +123,11 @@ li {
 }
 
 @media all and (min-width: 768px) {
-  .header {
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 30px 25px 30px;
-  }
-
-  .title {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-  }
-
-  .title-name {
-    margin: 0;
-    font-size: 40px;
-    font-family: "Inknut Antiqua", serif;
-    font-weight: 100;
-    color: white;
-  }
-
-  .img-header {
-    display: block;
-  }
-
-  .input {
-    height: 25px;
-    width: 250px;
-  }
-
-  .btn {
-    margin-left: 10px;
-    height: 45px;
-    width: 45px;
-    border-radius: 50%;
-    border: none;
-    background-color: rgb(126, 62, 126);
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-  }
-
-  .btn:hover {
-    background-color: rgb(189, 110, 189);
-  }
-
   .main {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    height: 100vh;
+    height: 100%;
   }
 
   .s1 {

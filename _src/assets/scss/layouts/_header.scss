@@ -1,0 +1,71 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  padding: 10px 30px 25px 30px;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  &__name {
+    margin: 0;
+    font-family: "Inknut Antiqua", serif;
+    font-size: 24px;
+    font-weight: 100;
+    color: white;
+  }
+
+  &__img {
+    display: none;
+  }
+}
+
+.input {
+  height: 25px;
+  width: 180px;
+}
+
+.btn {
+  margin-left: 10px;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgb(126, 62, 126);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+@media all and (min-width: 768px) {
+  .title {
+    &__name {
+      font-size: 40px;
+    }
+
+    &__img {
+      display: block;
+    }
+  }
+
+  .input {
+    height: 25px;
+    width: 250px;
+  }
+
+  .btn {
+    margin-left: 10px;
+    height: 45px;
+    width: 45px;
+    font-size: 18px;
+  }
+
+  .btn:hover {
+    background-color: rgb(189, 110, 189);
+  }
+}
