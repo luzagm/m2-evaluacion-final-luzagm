@@ -10,20 +10,20 @@
 }
 
 .s1 {
-  width: 100%;
+  width: 100vw;
 }
 
 .original {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
 
-.original__series {
-  text-align: center;
-  font-family: "Inknut Antiqua", serif;
-  font-weight: 100;
-  border-bottom: 2px solid black;
+  &__series {
+    text-align: center;
+    font-family: "Inknut Antiqua", serif;
+    font-weight: 100;
+    border-bottom: 2px solid black;
+  }
 }
 
 .js-show-list {
@@ -49,7 +49,7 @@
 }
 
 .s2 {
-  width: 100%;
+  width: 100vw;
 }
 
 .fav__title {

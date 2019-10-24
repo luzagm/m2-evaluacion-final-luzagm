@@ -1,7 +1,6 @@
 .header {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   background-color: black;
   padding: 10px 30px 25px 30px;
@@ -10,6 +9,7 @@
 .title {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-bottom: 10px;
 
   &__name {
@@ -50,6 +50,7 @@
 
     &__img {
       display: block;
+      width: 100px;
     }
   }
 
